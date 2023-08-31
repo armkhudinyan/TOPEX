@@ -1,5 +1,4 @@
 import numpy as np
-from pathos.multiprocessing import Pool
 
 
 class Topex:
@@ -9,13 +8,13 @@ class Topex:
             dem: np.ndarray,
             max_distance: float,
             interval: float,
-            pixel_spacing: float
+            resolution: float
             ) -> None:
         self.dem = dem
         self.max_distance = max_distance
         self.interval = interval
-        self.pixel_spacing = pixel_spacing
-        self.pixel_per_orth_interval = self.interval / self.pixel_spacing
+        self.resolution = resolution
+        self.pixel_per_orth_interval = self.interval / self.resolution
         self.pixel_per_diag_interval = self.pixel_per_orth_interval / np.sqrt(2)
 
     def _distances(self, pixels_per_inteval: float) -> np.ndarray:
@@ -28,8 +27,8 @@ class Topex:
 
         distances = self._distances(self.pixel_per_orth_interval
                         if axis < 2 else self.pixel_per_diag_interval)
-        pixel_spacing = (self.pixel_spacing
-                        if axis < 2 else self.pixel_spacing * np.sqrt(2))
+        resolution = (self.resolution
+                        if axis < 2 else self.resolution * np.sqrt(2))
 
         pad_dist = distances[-1]
         padded_dem = np.pad(dem, pad_dist)
@@ -50,7 +49,7 @@ class Topex:
                                                 distance + height,
                                                 pad_dist + distance: pad_dist +
                                                 distance + width]
-            angle = np.arctan(delta_height / (distance * pixel_spacing))
+            angle = np.arctan(delta_height / (distance * resolution))
             slope = np.minimum(slope, angle)
 
         return slope * -1
@@ -89,6 +88,8 @@ class Topex:
                 self.south(), self.south_west(), self.west(), self.north_west())
 
     def all_dir_multip(self) -> list[np.ndarray]:
+        from pathos.multiprocessing import Pool
+
         functions = [self.north, self.north_east, self.east, self.south_east,
                      self.south, self.south_west, self.west, self.north_west]
 
