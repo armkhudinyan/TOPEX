@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class Topex:
 
     def __init__(
@@ -23,7 +22,7 @@ class Topex:
             ) * pixels_per_inteval).round().astype(int)
 
     def _topex_along_axis(self, dem: np.ndarray, axis: int=0) -> np.ndarray:
-        # NOTE: # Axis 3 here refers to any of the diagonal directions
+        # NOTE: # Axis 2 here refers to any of the diagonal directions
 
         distances = self._distances(self.pixel_per_orth_interval
                         if axis < 2 else self.pixel_per_diag_interval)
