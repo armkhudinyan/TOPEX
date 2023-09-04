@@ -15,4 +15,4 @@ The current wersion is limited to calculating the TOPEX for 8 directions `N, NE,
 
 - For **Windows** systems:
 
-Download [*Link Shell Extention*]('https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html') and manually link the `topex_plugon` from repo to the QGis plugins default directory `C:\Users\USER\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins`
+Download [*Link Shell Extention*](https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html) and manually link the `topex_plugon` from repo to the QGis plugins default directory `C:\Users\USER\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins`
