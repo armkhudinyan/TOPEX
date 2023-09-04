@@ -7,7 +7,7 @@ The current wersion is limited to calculating the TOPEX for 8 directions `N, NE,
 
 `git clone`
 
-1. Create synchronized link for `topex_plugin` from GitHub repo to the QGis plugins' location
+1. Create synchronized link for `topex_plugin` from GitHub repo to the QGis plugins' default directory
 
 - For **Linux** systems:
 
@@ -15,4 +15,4 @@ The current wersion is limited to calculating the TOPEX for 8 directions `N, NE,
 
 - For **Windows** systems:
 
-Download [*Link Shell Extention*]('https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html') and manually link the folder to the QGis plugins directory
+Download [*Link Shell Extention*]('https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html') and manually link the `topex_plugon` from repo to the QGis plugins default directory `C:\Users\USER\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins`
