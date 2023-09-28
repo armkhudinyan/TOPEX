@@ -66,9 +66,8 @@ class Topex:
                 num_rows, num_cols = distance
                 pad_size_y, pad_size_x = pad_size
 
-                # dist_in_meters = self.y_res * num_rows / np.cos(np.pi / 4)
-                dist_in_meters = (self.x_res * num_cols / np.sin(np.pi / 4) +
-                                  self.y_res * num_rows / np.cos(np.pi / 4)) / 2
+                # dist_in_meters = (self.x_res * num_cols / np.sin(np.pi / 4) +
+                #                   self.y_res * num_rows / np.cos(np.pi / 4)) / 2
 
                 delta_height = dem - padded_dem[
                     pad_size_y + num_rows : pad_size_y + num_rows + height,

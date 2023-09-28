@@ -118,42 +118,42 @@ def run_topex_analysis(dem_path: Path, wind_dir: str,
     # Read DEM file
     src = rio.open(dem_path)
     dem = src.read(1)
-    res_x_y = _find_resolution(src)
-    assert res_x_y, 'Image resolution was not possible to detect'
+    res_y_x = _find_resolution(src)
+    assert res_y_x, 'Image resolution was not possible to detect'
 
     topex = Topex(dem,
                   max_distance,
                   interval,
-                  y_res=res_x_y[0],
-                  x_res=res_x_y[1])
+                  y_res=res_y_x[0],
+                  x_res=res_y_x[1])
 
-    results = np.empty(dem.shape) # Avoiding 'possibly unbound' error: Pylance
+    topex_map = np.empty(dem.shape) # Avoiding 'possibly unbound' error: Pylance
     if wind_dir == 'N':
-        results = topex.north()
+        topex_map = topex.north()
     if wind_dir == 'NE':
-        results = topex.north_east()
+        topex_map = topex.north_east()
     if wind_dir == 'E':
-        results = topex.east()
+        topex_map = topex.east()
     if wind_dir == 'SE':
-        results = topex.south_east()
+        topex_map = topex.south_east()
     if wind_dir == 'S':
-        results = topex.south()
+        topex_map = topex.south()
     if wind_dir == 'SW':
-        results = topex.south_west()
+        topex_map = topex.south_west()
     if wind_dir == 'W':
-        results = topex.west()
+        topex_map = topex.west()
     if wind_dir == 'NW':
-        results = topex.north_west()
+        topex_map = topex.north_west()
     if wind_dir == 'All':
-        results = topex.all_directions()
+        topex_map = topex.all_directions()
 
     if apply_mask: # Apply sea mask to clean the artifacts
         land_mask = dem==0.
         sea_mask = ~land_mask
-        results = results * sea_mask
-        if isinstance(type(results), np.ndarray):
-            results = tuple(result * sea_mask for result in results)
-    return results
+        topex_map = topex_map * sea_mask
+        if isinstance(type(topex_map), np.ndarray):
+            topex_map = tuple(result * sea_mask for result in topex_map)
+    return topex_map
 
 
 EARTH_RADIUS = 6_371_000  # m (Average Earth radius)
@@ -176,7 +176,7 @@ def _find_resolution(src: DatasetReader) -> Optional[tuple[float,float]]:
         # image res in meters
         return (y_res * DEGREE_LENGTH,
                 x_res * DEGREE_LENGTH * np.cos(
-                    np.deg2rad(src.meta['transform'][5]))
+                np.deg2rad(src.meta['transform'][5]))
                 )
     else: # Assuming src.crs.is_projected is True
         return y_res, x_res

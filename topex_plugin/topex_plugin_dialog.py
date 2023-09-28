@@ -88,17 +88,33 @@ class TopexDialog(QtWidgets.QDialog, FORM_CLASS):
         profile.update(dtype=rio.float32, count=1)
 
         # TODO: check for directory to exist, otherwise create one
-        out_dir = Path(self.leOutputDir.text())
+        out_path = Path(self.leOutputDir.text())
+        provided_name = None
+
+        if str(out_path) != self.last_selected_directory:
+            out_dir = out_path.parent
+            provided_name = out_path.stem
+        else:
+            out_dir = out_path
+
+        print()
+        print(out_path, out_dir, provided_name)
 
         if wind_dir == 'All':
             # print(self.topex_dirs[:-1])
-            for topex, name in zip(topex_result, self.topex_dirs[:-1]):
-                out_name = out_dir / f'topex_{name}.tif'
-                with rio.open(out_name, 'w', **profile) as dest:
+            for topex, wind in zip(topex_result, self.topex_dirs[:-1]):
+                filename = (out_dir / f'{provided_name}{wind}.tif'
+                    if provided_name
+                    else out_dir / f'Topex_{wind}.tif')
+
+                with rio.open(filename, 'w', **profile) as dest:
                     dest.write(topex, 1)
         else:
-            out_name = out_dir / f'topex_{wind_dir}.tif'
-            with rio.open(out_name, 'w', **profile) as dest:
+            filename = (out_dir / f'{provided_name}.tif'
+                if provided_name
+                else out_dir / f'Topex_{wind_dir}.tif')
+
+            with rio.open(filename, 'w', **profile) as dest:
                     dest.write(topex_result, 1)
                     # self.load_raster_to_qgis_layers(out_name)
 
@@ -144,5 +160,5 @@ class TopexDialog(QtWidgets.QDialog, FORM_CLASS):
                     initial_dir)
         if dirname:
             self.leOutputDir.setText(dirname)
-            self.last_selected_directory = str(Path(dirname).parent)
+            self.last_selected_directory = str(dirname)
             self.settings.setValue("LastDirectory", self.last_selected_directory)

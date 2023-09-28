@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>324</width>
+    <width>338</width>
     <height>380</height>
    </rect>
   </property>
@@ -16,14 +16,14 @@
   <widget class="QLabel" name="labelOutputDir">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>290</y>
-     <width>62</width>
-     <height>16</height>
+     <x>10</x>
+     <y>293</y>
+     <width>81</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Output dir</string>
+    <string>Output dir *</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="leOutputDir">
@@ -31,9 +31,12 @@
     <rect>
      <x>126</x>
      <y>290</y>
-     <width>125</width>
+     <width>150</width>
      <height>23</height>
     </rect>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
   <widget class="QLabel" name="labelSelectInputLayer">
@@ -41,12 +44,12 @@
     <rect>
      <x>9</x>
      <y>22</y>
-     <width>102</width>
+     <width>111</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Select DEM layer</string>
+    <string>Select DEM layer *</string>
    </property>
   </widget>
   <widget class="QFrame" name="Topex_Box">
@@ -170,7 +173,7 @@
     <rect>
      <x>127</x>
      <y>20</y>
-     <width>125</width>
+     <width>150</width>
      <height>23</height>
     </rect>
    </property>
@@ -178,7 +181,7 @@
   <widget class="QPushButton" name="pbSelectDem">
    <property name="geometry">
     <rect>
-     <x>261</x>
+     <x>291</x>
      <y>20</y>
      <width>41</width>
      <height>23</height>
@@ -191,7 +194,7 @@
   <widget class="QPushButton" name="pbRunTopex">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>290</x>
      <y>340</y>
      <width>41</width>
      <height>23</height>
@@ -204,7 +207,7 @@
   <widget class="QPushButton" name="pbSelectOutputdir">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>290</x>
      <y>290</y>
      <width>41</width>
      <height>23</height>
