@@ -92,16 +92,16 @@ class TopexDialog(QtWidgets.QDialog, FORM_CLASS):
         provided_name = None
 
         if str(out_path) != self.last_selected_directory:
+            # Here we check if after folder selection there was a file name
+            # manually added to the output directory. If yes, it is used,
+            # otherwise a standard name is ised according the wind direction.
             out_dir = out_path.parent
             provided_name = out_path.stem
         else:
             out_dir = out_path
 
-        print()
-        print(out_path, out_dir, provided_name)
 
         if wind_dir == 'All':
-            # print(self.topex_dirs[:-1])
             for topex, wind in zip(topex_result, self.topex_dirs[:-1]):
                 filename = (out_dir / f'{provided_name}{wind}.tif'
                     if provided_name
