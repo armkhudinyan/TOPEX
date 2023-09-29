@@ -5,14 +5,18 @@ The current wersion is limited to calculating the TOPEX for 8 directions `N, NE,
 ## Installation Guide
 1. Clone the repository
 
-`git clone`
+    `git clone`
 
-1. Create synchronized link for `topex_plugin` from GitHub repo to the QGis plugins' default directory
+2. Create synchronized link for `topex_plugin` from GitHub repo to the QGis plugins' default directory
 
-- For **Linux** systems:
+    - For **Linux** systems:
 
-`ln -s /local/path/to/Git/TOPEX/topex_plugin/ /home/user/.local/share/QGIS/QGIS3/profiles/default/python/plugins/`
+        Run the following command from terminal:
 
-- For **Windows** systems:
+        `ln -s /local/path/to/Git/TOPEX/topex_plugin/ /home/user/.local/share/QGIS/QGIS3/profiles/default/python/plugins/`
 
-Download [*Link Shell Extention*](https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html) and manually link the `topex_plugin` from repo to the QGis plugins default directory (possibly found at: `C:\Users\USER\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins`)
+    - For **Windows** systems:
+
+        Download [*Link Shell Extention*](https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html) and manually link the `topex_plugin` from repo to the QGis plugins default directory (possibly found at: `C:\Users\USER\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins`)
+
+3. In QGis *Plugins* section find *TOPEX* olugin.
