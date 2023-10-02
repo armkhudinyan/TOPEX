@@ -17,6 +17,9 @@ The current wersion is limited to calculating the TOPEX for 8 directions `N, NE,
 
     - For **Windows** systems:
 
-        Download [*Link Shell Extention*](https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html) and manually link the `topex_plugin` from repo to the QGis plugins default directory (possibly found at: `C:\Users\USER\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins`)
+        Download [*Link Shell Extention*](https://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html) and manually link the `topex_plugin` folder from repo to the QGis plugins default directory (possibly found at: `C:\Users\USER\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins`)
 
 3. In QGis *Plugins* section find *TOPEX* plugin.
+
+> [!NOTE]
+> Depending on your QGis version, you may need to manually install `rasterio` third party library in the same env as QGis.<s>
