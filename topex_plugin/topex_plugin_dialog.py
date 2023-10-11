@@ -35,7 +35,8 @@ from qgis.core import (QgsProject,          # type: ignore
 
 import sys
 sys.path.append(os.path.dirname(__file__))
-from topex_plugin.topex import run_topex_analysis, get_raster_profile
+from topex_plugin.topex import run_topex_analysis
+from topex_plugin.utils import get_raster_profile, sea_mask
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -56,6 +57,7 @@ class TopexDialog(QtWidgets.QDialog, FORM_CLASS):
         # Load raster layer
         self.pbSelectDem.clicked.connect(self.pb_select_dem)
         self.pbSelectOutputdir.clicked.connect(self.pb_select_out_dir)
+        self.pbSelectSeaMask.clicked.connect(self.pb_select_land_mask_shp)
         self.pbRunTopex.clicked.connect(self.pbRunTopexAnalysis)
         self.settings = QSettings("YourPlugin", "TopexPlugin")
         self.last_selected_directory = self.settings.value("LastDirectory", "")
@@ -74,14 +76,28 @@ class TopexDialog(QtWidgets.QDialog, FORM_CLASS):
         max_dist  = float(self.leMaxDistance.text())
         interval = float(self.leInterval.text())
         wind_dir = self.cboxTopexDirs.currentText()
-        apply_mask = self.cbApplySeaMask.isChecked()
+        sea_mask_dem = self.cbApplySeaMaskDEM.isChecked()
+        land_mask_shp = Path(self.leLandMaskShpDir.text())
+        if land_mask_shp.is_file():
+            sea_mask_dem = False
+
         # Run the TOPEX
         topex_result = run_topex_analysis(
             dem_path,
             wind_dir,
             max_dist,
             interval,
-            apply_mask)
+            sea_mask_dem)
+
+
+        # TODO: Apply sea_mask form shapefile
+        if land_mask_shp.is_file():
+            mask = sea_mask(dem_path, land_mask_shp)
+            if isinstance(topex_result, list):
+                for topex in topex_result:
+                    topex *= mask
+            else:
+                topex_result *= mask
 
         # Write each TOPEX map in a separate .tif file
         profile = get_raster_profile(dem_path)
@@ -119,7 +135,6 @@ class TopexDialog(QtWidgets.QDialog, FORM_CLASS):
                     # self.load_raster_to_qgis_layers(out_name)
 
         self.labelStatusHolder.setText("Ready")
-
 
     def load_raster_to_qgis_layers(self, layer_path: Path) -> None:
         layer = QgsRasterLayer(str(layer_path), str(layer_path.name))
@@ -161,4 +176,18 @@ class TopexDialog(QtWidgets.QDialog, FORM_CLASS):
         if dirname:
             self.leOutputDir.setText(dirname)
             self.last_selected_directory = str(dirname)
+            self.settings.setValue("LastDirectory", self.last_selected_directory)
+
+    def pb_select_land_mask_shp(self):
+        initial_dir = (self.last_selected_directory
+                    if self.last_selected_directory
+                    else os.path.expanduser("~"))
+        dirname, _ = QFileDialog.getOpenFileName(
+                    self,
+                    "Select product directory",
+                    initial_dir,
+                    "Shape Files (*.shp)")
+        if dirname:
+            self.leLandMaskShpDir.setText(dirname)
+            self.last_selected_directory = str(Path(dirname).parent)
             self.settings.setValue("LastDirectory", self.last_selected_directory)

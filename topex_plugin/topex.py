@@ -4,6 +4,8 @@ import numpy as np
 import rasterio as rio
 from rasterio.io import DatasetReader
 
+from topex_plugin.utils import find_raster_resolution
+
 
 class Topex:
 
@@ -106,19 +108,19 @@ class Topex:
         flip_dem = self.dem[::-1, ::-1] # flip along 0 and 1 axes
         return self._topex_along_axis(flip_dem, axis=2)[::-1, ::-1]
 
-    def all_directions(self) -> tuple[np.ndarray,...]:
-        return (self.north(), self.north_east(), self.east(), self.south_east(),
-                self.south(), self.south_west(), self.west(), self.north_west())
+    def all_directions(self) -> list[np.ndarray]:
+        return [self.north(), self.north_east(), self.east(), self.south_east(),
+                self.south(), self.south_west(), self.west(), self.north_west()]
 
 
 def run_topex_analysis(dem_path: Path, wind_dir: str,
     max_distance: float, interval: float, apply_mask: bool=False
-    ) -> Union[np.ndarray,tuple[np.ndarray,...]]:
+    ) -> Union[np.ndarray,list[np.ndarray]]:
 
     # Read DEM file
     src = rio.open(dem_path)
     dem = src.read(1)
-    res_y_x = _find_resolution(src)
+    res_y_x = find_raster_resolution(src)
     assert res_y_x, 'Image resolution was not possible to detect'
 
     topex = Topex(dem,
@@ -152,31 +154,5 @@ def run_topex_analysis(dem_path: Path, wind_dir: str,
         sea_mask = ~land_mask
         topex_map = topex_map * sea_mask
         if isinstance(type(topex_map), np.ndarray):
-            topex_map = tuple(result * sea_mask for result in topex_map)
+            topex_map = list(result * sea_mask for result in topex_map)
     return topex_map
-
-
-EARTH_RADIUS = 6_371_000  # m (Average Earth radius)
-DEGREE_LENGTH = 2 * np.pi * EARTH_RADIUS / 360
-
-
-def get_raster_profile(dem_path: Path) -> dict:
-    src = rio.open(dem_path)
-    return src.profile
-
-
-def _find_resolution(src: DatasetReader) -> Optional[tuple[float,float]]:
-    assert src.crs, 'Missing or invalid CRS'
-
-    x_res, y_res = src.res
-
-    if src.crs.is_geographic:
-        R = 6_371_000  # m (Average Earth radius)
-        DEGREE_LENGTH = 2 * np.pi * R / 360
-        # image res in meters
-        return (y_res * DEGREE_LENGTH,
-                x_res * DEGREE_LENGTH * np.cos(
-                np.deg2rad(src.meta['transform'][5]))
-                )
-    else: # Assuming src.crs.is_projected is True
-        return y_res, x_res
