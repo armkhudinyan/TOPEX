@@ -22,4 +22,5 @@ The current wersion is limited to calculating the TOPEX for 8 directions `N, NE,
 3. In QGis *Plugins* section find *TOPEX* plugin.
 
 > [!NOTE]
-> Depending on your QGis version, you may need to manually install `rasterio` third party library in the same env as QGis.<s>
+> Depending on your QGis version, you may need to manually install `rasterio` third party library in the same env as QGis.
+> In case of multiprocessing in python (not via plugn), you will need to manually install `pathos` third parthy library.
