@@ -1,4 +1,3 @@
-from typing import Optional
 from pathlib import Path
 import numpy as np
 import geopandas as gpd
@@ -17,14 +16,12 @@ def get_raster_profile(dem_path: Path) -> dict:
     return src.profile
 
 
-def find_raster_resolution(src: DatasetReader) -> Optional[tuple[float,float]]:
+def find_raster_resolution(src: DatasetReader) -> tuple[float,float] | None:
     assert src.crs, 'Missing or invalid CRS'
 
     x_res, y_res = src.res
 
     if src.crs.is_geographic:
-        R = 6_371_000  # m (Average Earth radius)
-        DEGREE_LENGTH = 2 * np.pi * R / 360
         # image res in meters
         return (y_res * DEGREE_LENGTH,
                 x_res * DEGREE_LENGTH * np.cos(

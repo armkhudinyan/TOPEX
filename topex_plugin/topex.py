@@ -1,8 +1,6 @@
-from typing import Optional, Union
 from pathlib import Path
 import numpy as np
 import rasterio as rio
-from rasterio.io import DatasetReader
 
 from topex_plugin.utils import find_raster_resolution
 
@@ -16,7 +14,7 @@ class Topex:
             interval: float,
             *,
             y_res: float,
-            x_res: Optional[float] = None
+            x_res: float | None=None
     ) -> None:
         self.dem = dem
         self.max_distance = max_distance
@@ -115,7 +113,7 @@ class Topex:
 
 def run_topex_analysis(dem_path: Path, wind_dir: str,
     max_distance: float, interval: float, apply_mask: bool=False
-    ) -> Union[np.ndarray,list[np.ndarray]]:
+    ) -> np.ndarray | list[np.ndarray]:
 
     # Read DEM file
     src = rio.open(dem_path)
