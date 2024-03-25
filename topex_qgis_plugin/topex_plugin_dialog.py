@@ -35,8 +35,8 @@ from qgis.core import (QgsProject,          # type: ignore
 
 import sys
 sys.path.append(os.path.dirname(__file__))
-from topex_plugin.topex import run_topex_analysis
-from topex_plugin.utils import get_raster_profile, sea_mask
+from topex_qgis_plugin.topex import run_topex_analysis
+from topex_qgis_plugin.utils import get_raster_profile, sea_mask
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(

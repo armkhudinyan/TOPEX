@@ -11,9 +11,9 @@ The current wersion is limited to calculating the TOPEX for 8 directions `N, NE,
 
     - For **Linux** systems:
 
-        Run the following command from terminal:
+        Adapt the paths and run the following command from terminal:
 
-        `ln -s /local/path/to/Git/TOPEX/topex_plugin/ /home/user/.local/share/QGIS/QGIS3/profiles/default/python/plugins/`
+        `ln -s /local/path/to/TOPEX/topex_qgis_plugin/ /home/user/.local/share/QGIS/QGIS3/profiles/default/python/plugins/`
 
     - For **Windows** systems:
 
@@ -22,5 +22,8 @@ The current wersion is limited to calculating the TOPEX for 8 directions `N, NE,
 3. In QGis *Plugins* section find *TOPEX* plugin.
 
 > [!NOTE]
-> Depending on your QGis version, you may need to manually install `rasterio` third party library in the same env as QGis.
+> Depending on your QGis version, you may need to manually install `rasterio` and `geopandas` third party libraries in the same env as QGis.
 > In case of multiprocessing in python (not via plugn), you will need to manually install `pathos` third parthy library.
+
+### Running from python code
+Explore the source code and how to run the analysis from jupyter notebook at `TOPEX/src`.

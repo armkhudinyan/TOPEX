@@ -2,7 +2,7 @@ from pathlib import Path
 import numpy as np
 import rasterio as rio
 
-from topex_plugin.utils import find_raster_resolution
+from .utils import find_raster_resolution
 
 
 class Topex:
@@ -111,8 +111,12 @@ class Topex:
                 self.south(), self.south_west(), self.west(), self.north_west()]
 
 
-def run_topex_analysis(dem_path: Path, wind_dir: str,
-    max_distance: float, interval: float, apply_mask: bool=False
+def run_topex_analysis(
+        dem_path: Path,
+        wind_dir: str,
+        max_distance: float,
+        interval: float,
+        apply_mask: bool=False
     ) -> np.ndarray | list[np.ndarray]:
 
     # Read DEM file

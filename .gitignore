@@ -1,6 +1,7 @@
 
 .vscode/settings.json
 __pycache__/topex.cpython-39.pyc
-__pycache__/topex.cpython-311.pyc
+__pycache__/*.pyc
 *.tif
 !spec/*.tif
+topex_qgis_plugin/__pycache__/*
