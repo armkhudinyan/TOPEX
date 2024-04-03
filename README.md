@@ -5,7 +5,7 @@ The current wersion is limited to calculating the TOPEX for 8 directions `N, NE,
 ## Installation Guide
 1. Clone the repository
 
-    `git clone`
+    `git clone git@github.com:armkhudinyan/TOPEX.git`
 
 2. Create synchronized link for `topex_plugin` from GitHub repo to the QGis plugins' default directory
 
